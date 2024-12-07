@@ -23,27 +23,34 @@ def load_data(filepath: str) -> pd.DataFrame:
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     try:
-        df = df.dropna(axis=1, how='all')  # Drop entirely null columns
+        # Drop entirely null columns and duplicates
+        df = df.dropna(axis=1, how='all')
         df = df.drop_duplicates()
-        
+
         # Fill missing values with mean for key columns
-        for col in ['ghi', 'dni', 'dhi', 'moda', 'modb']:
-            df[col] = df[col].fillna(df[col].mean())
-        
+        numeric_cols = ['ghi', 'dni', 'dhi', 'moda', 'modb', 'tamb', 'rh', 'ws']
+        for col in numeric_cols:
+            if col in df.columns:
+                df[col] = df[col].fillna(df[col].mean())
+
         # Clip negative values
         for col in ['ghi', 'dni', 'dhi', 'moda', 'modb']:
-            df[col] = df[col].clip(lower=0)
-        
-        # Handle outliers using Z-score
-        df['z_score'] = zscore(df['ghi'])
-        df = df[df['z_score'].abs() < 4]  # Remove extreme outliers
-        df.drop('z_score', axis=1, inplace=True)
+            if col in df.columns:
+                df[col] = df[col].clip(lower=0)
+
+        # Handle outliers for multiple columns
+        for col in ['ghi', 'dni', 'dhi', 'moda', 'modb']:
+            if col in df.columns:
+                df[f'{col}_zscore'] = zscore(df[col])
+                df = df[df[f'{col}_zscore'].abs() < 4]
+                df.drop(f'{col}_zscore', axis=1, inplace=True)
 
         print(f"Data cleaned. {df.shape[0]} rows remaining.")
         return df
     except Exception as e:
         print(f"Error cleaning data: {e}")
         return df
+
 
 
 def generate_summary_statistics(df: pd.DataFrame) -> pd.DataFrame:
