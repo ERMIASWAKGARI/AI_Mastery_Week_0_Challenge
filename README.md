@@ -192,9 +192,3 @@ This project is licensed under the **MIT License**. You are free to use, modify,
 
 ## 📞 **Contact**
 If you have any questions or feedback, please reach out to me via **GitHub Issues** or send a message to the facilitators on the **10 Academy community platform**.
-
----
-
-With this **descriptive README**, anyone visiting your GitHub repository will immediately understand your project. It includes clear explanations, installation instructions, and a professional layout.
-
-Let me know if you'd like any changes, additions, or customization to this README! 😊
