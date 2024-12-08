@@ -17,8 +17,9 @@ def load_data(filepath: str) -> pd.DataFrame:
         print(f"Data loaded successfully with {df.shape[0]} rows and {df.shape[1]} columns.")
         return df
     except Exception as e:
-        print(f"Error loading data: {e}")
+        print(f"Error loading data from {filepath}: {e}")
         return pd.DataFrame()
+
 
 
 def clean_data(df: pd.DataFrame, output_path: str = "notebooks/cleaned_data.csv") -> pd.DataFrame:

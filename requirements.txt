@@ -2,4 +2,8 @@ pandas
 numpy
 matplotlib
 seaborn
+scipy
+windrose
 streamlit
+pytest
+python-dotenv
