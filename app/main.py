@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy import zscore
+from scipy.stats import zscore
 from windrose import WindroseAxes
 
 # Import EDA functions from the provided eda.py logic
