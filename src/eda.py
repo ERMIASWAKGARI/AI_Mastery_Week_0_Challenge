@@ -21,7 +21,17 @@ def load_data(filepath: str) -> pd.DataFrame:
         return pd.DataFrame()
 
 
-def clean_data(df: pd.DataFrame) -> pd.DataFrame:
+def clean_data(df: pd.DataFrame, output_path: str = "notebooks/cleaned_data.csv") -> pd.DataFrame:
+    """
+    Cleans the given DataFrame and saves the cleaned data to a CSV file.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame to clean.
+        output_path (str): The file path to save the cleaned data.
+
+    Returns:
+        pd.DataFrame: The cleaned DataFrame.
+    """
     try:
         # Drop entirely null columns and duplicates
         df = df.dropna(axis=1, how='all')
@@ -45,12 +55,14 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
                 df = df[df[f'{col}_zscore'].abs() < 4]
                 df.drop(f'{col}_zscore', axis=1, inplace=True)
 
-        print(f"Data cleaned. {df.shape[0]} rows remaining.")
+        # Save the cleaned data to a CSV file
+        df.to_csv(output_path, index=False)
+        print(f"Data cleaned and saved to {output_path}. {df.shape[0]} rows remaining.")
+
         return df
     except Exception as e:
         print(f"Error cleaning data: {e}")
         return df
-
 
 
 def generate_summary_statistics(df: pd.DataFrame) -> pd.DataFrame:
